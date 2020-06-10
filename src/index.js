@@ -2,11 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+
+import {configure} from 'mobx';
+import {Provider} from 'mobx-react';
+
+
+import RootStore from './store';
+
 import * as serviceWorker from './serviceWorker';
+
+
+const stores = {
+  RootStore
+};
+
+configure({'enforceActions': 'always'});
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider {...stores}>
+        <App/>
+    </Provider>,
   </React.StrictMode>,
   document.getElementById('root')
 );
