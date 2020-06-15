@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Router, Route, Link } from 'react-router'
+import { Router, Route, Link } from 'react-router-dom'
 class Edit extends Component {
 
   componentDidMount(){
@@ -13,23 +13,7 @@ class Edit extends Component {
     this.props.history.goBack();
   }
 
-  const User = React.createClass({
-    componentDidMount() {
-      this.setState({
-        // 路由应该通过有用的信息来呈现，例如 URL 的参数
-        user: findUserById(this.props.params.userId)
-      })
-    },
-  
-    render() {
-      return (
-        <div>
-          <h2>{this.state.user.name}</h2>
-          {/* 等等。 */}
-        </div>
-      )
-    }
-  })
+
 
   render() {
     return (
