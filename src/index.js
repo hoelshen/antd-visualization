@@ -1,30 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-
-import {configure} from 'mobx';
-import {Provider} from 'mobx-react';
-
-
-import RootStore from './store';
-
+import IRouter from './router';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import configureStore from './redux/store/configureStore';
 
 
-const stores = {
-  RootStore
-};
-
-configure({'enforceActions': 'always'});
-
+const store = configureStore();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider {...stores}>
-        <App/>
-    </Provider>,
-  </React.StrictMode>,
+  <Provider store={store}>
+    <IRouter />
+  </Provider>,
   document.getElementById('root')
 );
 
