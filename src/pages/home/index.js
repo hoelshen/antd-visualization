@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Child from './Child'
-
 import ChartSettingBoard from '../../components/ChartSettingBoard'
 
 import { Button } from 'antd';

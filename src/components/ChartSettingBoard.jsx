@@ -144,7 +144,7 @@ export class ChartSettingBoard extends Component {
                 <h3>可视化</h3>
                 <Row gutter={10}>
                     <Col sm={6}>
-                        <div style={{ height: '50px' }}>
+                        <div style={{ height: '50px', width: '100%' }}>
                             <Select
                                 className='chartTypeSelect'
                                 defaultValue={chartType[0].value}

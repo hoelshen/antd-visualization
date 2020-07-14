@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux'
 import { switchMenu } from './../../redux/action'
 
+import './index.less'
+
 import { Menu } from "antd";
 import {
   MailOutlined,
@@ -53,8 +55,7 @@ class NavLeft extends React.Component {
     return (
       <div>
       <div className="logo">
-          <img src="/assets/logo-ant.svg" alt=""/>
-          <h1>Imooc</h1>
+          <h1>MPai可视化分析平台</h1>
       </div>
       <Menu
           onClick={this.handleClick}
