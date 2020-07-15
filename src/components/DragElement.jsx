@@ -30,14 +30,15 @@ export class DragElement extends Component {
 
     render() {
         const { connectDragSource, isDragging, item } = this.props;
+        console.log('item', item)
         return connectDragSource(
             <div className='dragElement'
                 style={{
                     opacity: isDragging ? 0.3 : 1
                 }}
             >
-                <span>{item.name}</span>
-                <span className='type'>{item.type}</span>
+                <span>{item.name || item.field_nm}</span>
+                {/* <span className='type'>{item.type}</span> */}
             </div>
         )
     }

@@ -58,7 +58,7 @@ export default class Axios {
     if (options.isMock) {
       baseApi = "/mock/api";
     } else {
-      baseApi = "http://47.112.4.30:10499/";
+      baseApi = "http://47.112.4.30:10499/api";
     }
     return new Promise((resolve, reject) => {
       axios({

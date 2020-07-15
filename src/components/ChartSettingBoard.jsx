@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Select, Icon } from 'antd'
+import { Row, Col, Select, Icon, Input } from 'antd'
 import { StarTwoTone  }  from '@ant-design/icons';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -8,6 +8,7 @@ import DropElement from './DropElement';
 import update from 'immutability-helper';
 import echartConfig from './echartConfig';
 import './chartSettingBoard.css'
+import axios from '../axios/index'
 
 import ConfigDropBox from './ConfigDropBox'
 import DragElement from './DragElement'
@@ -15,11 +16,13 @@ import DragElement from './DragElement'
 const Option = Select.Option;
 const dragItem = 'item';
 const colorSet = ['#9CC5B0', '#C9856B', '#6F9FA7', '#334553', '#B34038', '#7D9D85', '#C1883A']
+const { Search } = Input
+
 
 const lineData = [
     { name: '年销量', type: 'string', value: 'year', id: 0, data: ['2013', '2014', '2015', '2016', '2017', '2018'], color: '#9CC5B0', chart: 'line' },
     { name: '华北', type: 'value', value: 'h', id: 1, data: [40, 80, 20, 120, 140, 50], color: '#C9856B', chart: 'line' },
-    { name: '华东', type: 'value', value: 'd', id: 2, data: [140, 180, 120, 40, 50, 150], color: '#6F9FA7', chart: 'line' },
+    { name: '华东', type: 'value', value: 'h', id: 2, data: [140, 180, 120, 40, 50, 150], color: '#6F9FA7', chart: 'line' },
     { name: '华南', type: 'value', value: 'n', id: 3, data: [110, 143, 68, 90, 120, 130], color: '#334553', chart: 'line' }
 ];
 const pieData = [
@@ -56,6 +59,9 @@ export class ChartSettingBoard extends Component {
         dropConfig: echartConfig['line']
     }
 
+    params = {
+      page: 1
+    }
     dragEleMove(id) {
         this.setState({ activeDropId: id })
     }
@@ -112,6 +118,28 @@ export class ChartSettingBoard extends Component {
         this.setState({ dropConfig: dropList })
     }
 
+
+    componentDidMount(){
+      console.log('1')
+      this.request()
+    }
+    // 动态获取mock数据
+    request = ()=>{
+        let _this = this;
+        axios.ajax({
+            url:'/dta/dataFile/fields/640564464713728',
+        }).then((res)=>{
+          console.log('res: ', res);
+            if(res.code == 0){
+                const data = res.data.data_fields;
+                console.log('data', data);
+                this.setState({
+                  itemList:data
+                })
+            }
+        })
+    }
+
     render() {
         const { itemList, dropConfig } = this.state
         const leftItems = itemList.map((item, idx) => {
@@ -132,37 +160,27 @@ export class ChartSettingBoard extends Component {
             })
 
             return (
-                <Col sm={10} key={idx} className={dropConfig.length > 3 ? 'shortBox' : 'longBox'}>
+                <Row sm={10} key={idx} className={dropConfig.length > 3 ? 'shortBox' : 'longBox'}>
                     <ConfigDropBox move={this.dragEleMove} item={item} id={idx} canDrop={this.canDrop}>
                         {items}
                     </ConfigDropBox>
-                </Col>
+                </Row>
             )
         })
+        console.log('chartType', this.chartType, leftItems);
+        
         return (
             <div className='chartSettingBoard'>
                 <h3>可视化</h3>
                 <Row gutter={10}>
-                    <Col sm={6}>
+                    <Col sm={3}>
                         <div style={{ height: '50px', width: '100%' }}>
-                            <Select
-                                className='chartTypeSelect'
-                                defaultValue={chartType[0].value}
-                                onChange={(e) => this.onSelectChartType(e)}
-                                style={{ width: '100%' }}>{
-                                    chartType.map((item, idx) => <Option key={idx} value={item.value}>
-                                        <div>
-                                            {item.name}
-                                            <p style={{ color: '#999', display: 'none' }}>描述...</p>
-                                            <div className='charIconBox' style={{ display: 'none' }}>
-                                                {item.value === 'line' ? <Icon className='charIcon' type="line-chart" /> : ''}
-                                                {item.value === 'bar' ? <Icon className='charIcon' type="bar-chart" /> : ''}
-                                                {item.value === 'pie' ? <Icon className='charIcon' type="pie-chart" /> : ''}
-                                            </div>
-                                        </div>
-                                    </Option>)
-                                }
-                            </Select>
+                        <Search
+                          placeholder="input search text"
+                          onSearch={value => console.log(value)}
+                          style={{ width: 200 }}
+                          enterButton
+                        />
                         </div>
                         <div className='leftBox'>
                             {leftItems}
@@ -172,9 +190,9 @@ export class ChartSettingBoard extends Component {
                         <Row gutter={10}>
                             {dropList}
                         </Row>
+                        <DropConfigChart dropConfig={this.state.dropConfig} chartType={this.state.chartType} />
                     </Col>
                 </Row>
-                <DropConfigChart dropConfig={this.state.dropConfig} chartType={this.state.chartType} />
             </div>
         )
     }

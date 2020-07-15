@@ -6,21 +6,34 @@ import { switchMenu } from './../../redux/action'
 
 import './index.less'
 
-import { Menu } from "antd";
+import { Menu, Layout, Button } from "antd";
+
 import {
-  MailOutlined,
   AppstoreOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  PieChartOutlined,
+  DesktopOutlined,
+  ContainerOutlined,
+  MailOutlined,
+} from '@ant-design/icons';
 
 import MenuConfig from "../../config/menuConfig";
 
 const { SubMenu } = Menu;
+const { Header, Sider, Content } = Layout;
 
 class NavLeft extends React.Component {
   state = {
-      currentKey:''
+    currentKey:'',
+    collapsed: false,
+
   }
+  toggleCollapsed = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
   handleClick = ({ item ,key})=>{
     const menuTreeNode = this.renderMenu(MenuConfig);
     let currentKey = window.location.hash.replace(/#|\?.*$/g, '');
@@ -44,7 +57,7 @@ class NavLeft extends React.Component {
         );
       }
       return (
-        <Menu.Item title={item.title} key={item.key}>
+        <Menu.Item title={item.title} key={item.key} icon={<PieChartOutlined />}>
           <NavLink to={item.key}>{item.title}</NavLink>
         </Menu.Item>
       );
@@ -54,17 +67,19 @@ class NavLeft extends React.Component {
   render() {
     return (
       <div>
-      <div className="logo">
-          <h1>MPai可视化分析平台</h1>
-      </div>
-      <Menu
-          onClick={this.handleClick}
-          selectedKeys={this.state.currentKey}
-          theme="dark"
-      >
+        <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
+          {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+        </Button>
+          <Menu
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              mode="inline"
+              inlineCollapsed={this.state.collapsed}
+              theme="dark"
+          >
           { this.state.menuTreeNode }
-      </Menu>
-  </div>
+          </Menu>
+      </div>
     );
   }
 }

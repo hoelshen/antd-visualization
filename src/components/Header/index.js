@@ -42,7 +42,7 @@ class Header extends React.Component{
                         menuType?
                             <Col span="6" className="logo">
                                 <img src="/assets/logo-ant.svg" alt=""/>
-                                <span>IMooc 通用管理系统</span>
+                                <span>MaPi可视化分析平台 </span>
                             </Col>:''
                     }
                     <Col span={menuType?18:24}>
