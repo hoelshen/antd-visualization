@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Select, Icon, Input } from 'antd'
+import { Row, Col, Select, Icon, Input, Menu } from 'antd'
 import { StarTwoTone  }  from '@ant-design/icons';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -7,17 +7,17 @@ import DropConfigChart from './DropConfigChart';
 import DropElement from './DropElement';
 import update from 'immutability-helper';
 import echartConfig from './echartConfig';
-import './chartSettingBoard.css'
-import axios from '../axios/index'
-
-import ConfigDropBox from './ConfigDropBox'
-import DragElement from './DragElement'
+import './chartSettingBoard.css';
+import axios from '../axios/index';
+import { FILED_TYPE } from '../enums/index';
+import ConfigDropBox from './ConfigDropBox';
+import DragElement from './DragElement';
 
 const Option = Select.Option;
 const dragItem = 'item';
 const colorSet = ['#9CC5B0', '#C9856B', '#6F9FA7', '#334553', '#B34038', '#7D9D85', '#C1883A']
 const { Search } = Input
-
+const { SubMenu } = Menu;
 
 const lineData = [
     { name: '年销量', type: 'string', value: 'year', id: 0, data: ['2013', '2014', '2015', '2016', '2017', '2018'], color: '#9CC5B0', chart: 'line' },
@@ -37,6 +37,13 @@ const chartType = [
     { value: 'bar', name: '柱状图' },
     { value: 'pie', name: '饼图' }
 ]
+
+/* 
+{
+  "worksheet_id": 0,
+  "worksheet_nm": "string"
+}
+*/
 
 export class ChartSettingBoard extends Component {
 
@@ -127,7 +134,7 @@ export class ChartSettingBoard extends Component {
     request = ()=>{
         let _this = this;
         axios.ajax({
-            url:'/dta/dataFile/fields/640564464713728',
+            url:'/dta/dataFile/fields/642516560904192',
         }).then((res)=>{
           console.log('res: ', res);
             if(res.code == 0){
@@ -148,6 +155,24 @@ export class ChartSettingBoard extends Component {
                     <DragElement item={item} beginDrag={this.beginDrag} id={idx} endDrag={this.endDrag} />
                 </div>
             )
+        })
+
+        const workSheets = workList.map((item, idx)=>{
+          return (
+            <SubMenu
+            key="sub1"
+            title={
+              <span>
+                <span>Navigation One</span>
+              </span>
+            }
+            >
+              <Menu.ItemGroup key="g1" title="Item 1">
+                <Menu.Item key="1">Option 1</Menu.Item>
+                <Menu.Item key="2">Option 2</Menu.Item>
+              </Menu.ItemGroup>
+            </SubMenu>
+          )
         })
 
         const dropList = dropConfig.map((item, idx) => {
@@ -185,6 +210,10 @@ export class ChartSettingBoard extends Component {
                         <div className='leftBox'>
                             {leftItems}
                         </div>
+                        <div>
+                          {workSheets}
+                          
+                        </div> 
                     </Col>
                     <Col sm={18}>
                         <Row gutter={10}>

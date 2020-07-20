@@ -90,7 +90,7 @@ class Drag extends Component {
 
         return (
             <div>
-               {loop(Data)}
+              {loop(Data)}
             </div>
         );
     }
