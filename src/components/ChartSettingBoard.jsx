@@ -4,6 +4,9 @@ import { StarTwoTone  }  from '@ant-design/icons';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import DropConfigChart from './DropConfigChart';
+import WorkSheetConfig from './WorkSheetConfig';
+import "antd/dist/antd.css";
+
 import DropElement from './DropElement';
 import update from 'immutability-helper';
 import echartConfig from './echartConfig';
@@ -126,8 +129,19 @@ export class ChartSettingBoard extends Component {
     // 动态获取mock数据
     request = ()=>{
         let _this = this;
+
+/*         axios.ajax({
+          url: 'dta/dataFile/tree'
+        }).then((res)=>{
+          console.log('res: ', res);
+
+        }).catch((err)=>{
+          console.log('err: ', err);
+
+        }) */
+
         axios.ajax({
-            url:'/dta/dataFile/fields/640564464713728',
+            url:'/dta/dataFile/fields/642516560904192',
         }).then((res)=>{
           console.log('res: ', res);
             if(res.code == 0){
@@ -160,10 +174,12 @@ export class ChartSettingBoard extends Component {
             })
 
             return (
-                <Row sm={10} key={idx} className={dropConfig.length > 3 ? 'shortBox' : 'longBox'}>
-                    <ConfigDropBox move={this.dragEleMove} item={item} id={idx} canDrop={this.canDrop}>
+                <Row  key={idx} style={{width: ' 100%'}} >
+                  <Col span={8} >
+                  <ConfigDropBox move={this.dragEleMove} item={item} id={idx} canDrop={this.canDrop}>
                         {items}
                     </ConfigDropBox>
+                  </Col>
                 </Row>
             )
         })
@@ -173,7 +189,7 @@ export class ChartSettingBoard extends Component {
             <div className='chartSettingBoard'>
                 <h3>可视化</h3>
                 <Row gutter={10}>
-                    <Col sm={3}>
+                    <Col sm={4}>
                         <div style={{ height: '50px', width: '100%' }}>
                         <Search
                           placeholder="input search text"
@@ -185,6 +201,7 @@ export class ChartSettingBoard extends Component {
                         <div className='leftBox'>
                             {leftItems}
                         </div>
+                        <WorkSheetConfig/>                
                     </Col>
                     <Col sm={18}>
                         <Row gutter={10}>

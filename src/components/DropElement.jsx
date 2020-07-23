@@ -9,7 +9,6 @@ const XItem = ({ item, delItem, pitem, pid }) => {
     return (
         <div className='xItem'>
             <span>{item.name}</span>
-            <Icon type="close" className='icon' onClick={() => delItem(item, pitem, pid)} />
             <span className='type'>{item.type}</span>
         </div>
     )
@@ -37,7 +36,6 @@ const YItem = ({ item, delItem, pitem, pid, changeItem }) => {
                     <Popover placement="bottom" content={content} trigger="click">
                         <span style={{ position: 'relative', paddingLeft: '20px' }}>  <span className='colorLabel' style={{ background: item.color }}></span>  颜色</span>
                     </Popover>
-                    <Icon type="close" className='icon' onClick={() => delItem(item, pitem, pid)} />
                 </Col>
             </Row>
         </div>

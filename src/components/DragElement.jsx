@@ -38,7 +38,6 @@ export class DragElement extends Component {
                 }}
             >
                 <span>{item.name || item.field_nm}</span>
-                {/* <span className='type'>{item.type}</span> */}
             </div>
         )
     }

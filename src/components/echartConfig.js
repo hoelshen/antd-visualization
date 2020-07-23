@@ -1,6 +1,6 @@
 const echartConfig = {
     line: [{
-            title: '值轴/X',
+            title: '行',
             key: 'xAxis',
             dropItem: 1,
             type: 'string',
@@ -9,7 +9,7 @@ const echartConfig = {
             items: []
         },
         {
-            title: '值轴/Y',
+            title: '列',
             key: 'yAxis',
             dropItem: 2,
             type: 'value',
@@ -26,7 +26,7 @@ const echartConfig = {
         }
     ],
     bar: [{
-            title: '值轴/X',
+            title: '行',
             key: 'xAxis',
             dropItem: 1,
             dec: 'x轴，数据类型为字符串！',
@@ -35,7 +35,7 @@ const echartConfig = {
             items: []
         },
         {
-            title: '值轴/Y',
+            title: '列',
             key: 'yAxis',
             dropItem: 2,
             type: 'value',
