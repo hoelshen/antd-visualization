@@ -1,78 +1,115 @@
-import React, { Component } from 'react'
-import './dragElement.css'
-import { Menu } from 'antd';
-import axios from '../axios/index'
-import { DownOutlined, UpOutlined, PlusOutlined } from '@ant-design/icons';
-
+import React, { Component } from "react";
+import "./dragElement.css";
+import { Menu } from "antd";
+import axios from "../axios/index";
+import { DownOutlined, UpOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 export class WorkSheetConfig extends Component {
-
-    rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
-
-    state = {
-      openKeys: ['sub1'],
-      isDown: true
+  constructor(props) {
+    super(props);
+    this.state = {
+      openKeys: ["sub1"],
+      isDown: true,
+      project_id: props.project_id,
+      workList:[]
     };
-  
-    componentDidMount(){
-      console.log(23)
-      axios.ajax({
-        url: 'vis/worksheet/getByProjectId',
-        data:{
+  }
+  rootSubmenuKeys = ["sub1", "sub2", "sub4"];
+
+  componentDidMount() {
+
+  }
+
+  componentWillReceiveProps(nextProps){
+    const { project_id } = nextProps;
+    axios.ajax({
+        url: "vis/worksheet/getByProjectId",
+        data: {
           params: {
-            project_id: '642516560904192'
+            project_id
           }
-        }
-      }).then((res)=>{
-        console.log('res: ', res);
-
+        },
       })
-    }
-
-
-    onOpenChange = openKeys => {
-      console.log('openKeys: ', openKeys);
-      const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
-      if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-        this.setState({ openKeys, isDown: false });
-      } else {
+      .then((res) => {
         this.setState({
-          openKeys: latestOpenKey ? [latestOpenKey] : [],
-          isDown: true
-        });
-      }
-    };
+          workList:res
+        })
+      });
+  }
 
-
-    render() {
-      const { isDown } = this.state;
-        const daymicIcon = isDown ?   <UpOutlined /> : <DownOutlined /> 
-        return (
-          <div style={{margin: "10px 10px"}}>
-              <Menu
-              mode="inline"
-              openKeys={this.state.openKeys}
-              onOpenChange={this.onOpenChange}
-              style={{ width: 256 }}
-            >
-              <SubMenu
-                style={{"text-align": 'center'}}
-                key="sub1"
-                arrow={false}
-                title={
-                  <span >
-                    <PlusOutlined/>
-                  </span>
-                }
-              >   
-                  <Menu.Item key="4">工作表</Menu.Item>
-              </SubMenu>
-              </Menu>
-          </div>
-        )
+  onOpenChange = (openKeys) => {
+    const latestOpenKey = openKeys.find(
+      (key) => this.state.openKeys.indexOf(key) === -1
+    );
+    if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      this.setState({ openKeys, isDown: false });
+    } else {
+      this.setState({
+        openKeys: latestOpenKey ? [latestOpenKey] : [],
+        isDown: true,
+      });
     }
+  };
+
+  handleWork = (item) => {
+    console.log('item: ', item);
+    axios.ajax({
+      url: `vis/worksheet/${item.worksheet_id}`,
+      data: {
+        params: {
+        }
+      },
+    })
+    .then((res) => {
+      console.log('res: ', res);
+     
+    });
+    axios.ajax({
+      url: `vis/worksheet/chart/${item.worksheet_id}`,
+      data: {
+        params: {
+        }
+      },
+    })
+    .then((res) => {
+      console.log('res: ', res.chart_json);
+      const obj = JSON.parse(res.chart_json)
+      console.log('obj: ', obj);
+    });
+  }
+
+
+  render() {
+    const { isDown, workList } = this.state;
+    const daymicIcon = isDown ? <UpOutlined /> : <DownOutlined />;
+    return (
+      <div style={{ margin: "10px 10px" }}>
+        <Menu
+          mode="inline"
+          openKeys={this.state.openKeys}
+          onOpenChange={this.onOpenChange}
+          style={{ width: 256 }}
+        >
+          <SubMenu
+            style={{ "text-align": "center" }}
+            key="sub1"
+            arrow={false}
+            title={
+              <span>
+                <PlusOutlined />
+              </span>
+            }
+          >
+          { workList.map(item=>{
+            return <Menu.Item key={item.worksheet_id} onClick={this.handleWork.bind(this, item)}>{item.worksheet_nm} </Menu.Item>
+            })
+          }
+          </SubMenu>
+        </Menu>
+      </div>
+    );
+  }
 }
 
-
-export default WorkSheetConfig
+export default WorkSheetConfig;

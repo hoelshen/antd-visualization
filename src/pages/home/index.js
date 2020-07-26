@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ChartSettingBoard from '../../components/ChartSettingBoard'
+import axios from '../../axios/index';
 
 import { Button } from 'antd';
 
@@ -9,14 +10,45 @@ export default class Life extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      count: 0
+      project_id: '',
+      data_id: ''
     }
   }
 
-  render(){
+  async componentDidMount(){
+    let value = await axios.ajax({
+      url: '/pjt/project/list',
+      data:{
+        params:{
+        }
+      }
+    })
 
+    this.setState({
+      project_id: value[0].project_id
+    })
+    let value2 = await axios.ajax({
+      url: '/dta/dataFile/tree',
+      data:{
+        params:{
+          project_id:  value[0].project_id
+        }
+      }
+    })
+
+    const data_id = value2.children[0].data_id
+    this.setState({
+      data_id
+    })
+    let value3 = await  axios.ajax({
+        url:`/dta/dataFile/fields/${data_id}`,
+    })
+  }
+
+  render(){
+    const { project_id, data_id } = this.state;
     return <div className={'vStyle'}>
-        <ChartSettingBoard />
+        <ChartSettingBoard  project_id={project_id} data_id={data_id}/>
     </div>
   }
 }

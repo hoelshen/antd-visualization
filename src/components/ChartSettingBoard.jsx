@@ -41,13 +41,6 @@ const chartType = [
     { value: 'pie', name: '饼图' }
 ]
 
-/* 
-{
-  "worksheet_id": 0,
-  "worksheet_nm": "string"
-}
-*/
-
 export class ChartSettingBoard extends Component {
 
     constructor(props) {
@@ -58,16 +51,19 @@ export class ChartSettingBoard extends Component {
         this.endDrag = this.endDrag.bind(this)
         this.delItem = this.delItem.bind(this)
         this.changeItem = this.changeItem.bind(this)
-        this.onSelectChartType = this.onSelectChartType.bind(this)
+        this.onSelectChartType = this.onSelectChartType.bind(this);
+        this.state = {
+          project_id: props.project_id,
+          data_id: props.data_id,
+          activeId: '',
+          activeDropId: '',
+          itemList: lineData,
+          chartType: 'line',
+          dropConfig: echartConfig['line']
+      }
     }
 
-    state = {
-        activeId: '',
-        activeDropId: '',
-        itemList: lineData,
-        chartType: 'line',
-        dropConfig: echartConfig['line']
-    }
+
 
     params = {
       page: 1
@@ -130,35 +126,28 @@ export class ChartSettingBoard extends Component {
 
 
     componentDidMount(){
-      console.log('1')
-      this.request()
+ 
     }
-    // 动态获取mock数据
-    request = ()=>{
-        let _this = this;
 
-/*         axios.ajax({
-          url: 'dta/dataFile/tree'
+    componentWillReceiveProps(nextProps){
+      // nextProps.data_id && this.request(nextProps.project_id, nextProps.data_id)
+    }
+    request = (project_id, data_id)=>{
+        axios.ajax({
+          url: '/vis/worksheet',
+          method: 'post',
+          data:{
+            project_id,
+            worksheet_nm: '工作表1',
+            data_id
+          }
         }).then((res)=>{
           console.log('res: ', res);
 
         }).catch((err)=>{
           console.log('err: ', err);
 
-        }) */
-
-/*         axios.ajax({
-            url:'/dta/dataFile/fields/642516560904192',
-        }).then((res)=>{
-          console.log('res: ', res);
-            if(res.code == 0){
-                const data = res.data.data_fields;
-                console.log('data', data);
-                this.setState({
-                  itemList:data
-                })
-            }
-        }) */
+        })      
     }
 
     render() {
@@ -182,7 +171,7 @@ export class ChartSettingBoard extends Component {
 
             return (
                 <Row  key={idx} style={{width: ' 100%'}} >
-                  <Col span={8} >
+                  <Col span={24} >
                   <ConfigDropBox move={this.dragEleMove} item={item} id={idx} canDrop={this.canDrop}>
                         {items}
                     </ConfigDropBox>
@@ -190,7 +179,6 @@ export class ChartSettingBoard extends Component {
                 </Row>
             )
         })
-        console.log('chartType', this.chartType, leftItems);
         
         return (
             <div className='chartSettingBoard'>
@@ -208,7 +196,7 @@ export class ChartSettingBoard extends Component {
                         <div className='leftBox'>
                             {leftItems}
                         </div>
-                        <WorkSheetConfig/>                
+                        <WorkSheetConfig project_id={this.props.project_id}/>                
                     </Col>
                     <Col sm={18}>
                         <Row gutter={10}>

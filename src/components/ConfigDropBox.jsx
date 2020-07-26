@@ -27,13 +27,13 @@ export class ConfigBox extends Component {
         const { connectDropTarget, isOver, item, canDrop } = this.props;
         return connectDropTarget(
             <div className='configDropBox'>
-                <div className='topTitle'>{item.title}
+                <span className='topTitle'>{item.title}
                     <span style={{ float: 'right' }}>
                         <Popover content={<div>{item.dec}</div>} trigger="hover" placement="bottom" >
                             <Icon type="info-circle-o" />
                         </Popover>
                     </span>
-                </div>
+                </span>
                 <div className='dropBox'>
                     {this.props.children}
                     {isOver && canDrop ?

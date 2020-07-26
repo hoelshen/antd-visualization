@@ -11,6 +11,10 @@ import './index.less'
 export default class Admin extends React.Component{
 
 
+ componentDidMount(){
+
+  }
+
   render(){
     return (
       <Row className='container'>

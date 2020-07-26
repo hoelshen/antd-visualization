@@ -4,14 +4,14 @@ import { Modal } from "antd";
 import Utils from './../utils/utils'
 
 export default class Axios {
-  
-  static requestList(_this, url, params, isMock) {
+  static requestList(_this, url, method, params, isMock) {
     var data = {
       params: params,
       isMock,
     };
     this.ajax({
       url,
+      method,
       data,
     }).then((data) => {
       if (data && data.result) {
@@ -63,9 +63,10 @@ export default class Axios {
     return new Promise((resolve, reject) => {
       axios({
         url: options.url,
-        method: "get",
+        method: options.method || "get",
         baseURL: baseApi,
         timeout: 5000,
+        data:  options.data, 
         params: (options.data && options.data.params) || "",
       }).then((response) => {
         if (options.data && options.data.isShowLoading !== false) {
@@ -74,10 +75,8 @@ export default class Axios {
         }
         if (response.status === 200) {
           let data = response.data;
-          console.log('res: ', data);
-          if (data.code == 0) {
-            console.log('data.code: ', data.code);
-            resolve(data);
+          if (data.code === 0) {
+            resolve(data.data);
           } else {
             Modal.info({
               title: "提示",
