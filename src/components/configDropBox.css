@@ -1,5 +1,5 @@
 .configDropBox {
-    height: 90px;
+    height: 50px;
     width: 100%;
     position: relative;
     background-color: #fafafa;
@@ -8,12 +8,15 @@
     overflow: auto;
 }
 .configDropBox .topTitle {
-        height: 32px;
-        line-height: 32px;
+        display: inline-block;
+        height: 50px;
+        line-height: 50px;
         padding: 0 10px;
-        background: #f6f6f6
+        background: #38516B
     }
     .configDropBox .dropBox {
+        display: inline-block;
+        height: 50px;
         width: 100%;
         padding: 10px;
         background-color: #fafafa;

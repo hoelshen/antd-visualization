@@ -46,6 +46,7 @@ export class DropElement extends Component {
 
     render() {
         const dropItem = this.props.pitem.dropItem;
+        console.log('this.props: ', this.props);
         return (
             <div className='dropElement'>
                 {dropItem === 1 ? <XItem {...this.props} /> : null}

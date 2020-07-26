@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './dragElement.css'
 import { Menu } from 'antd';
 import axios from '../axios/index'
-import { MailOutlined } from '@ant-design/icons';
+import { DownOutlined, UpOutlined, PlusOutlined } from '@ant-design/icons';
 
 
 const { SubMenu } = Menu;
@@ -12,6 +12,7 @@ export class WorkSheetConfig extends Component {
 
     state = {
       openKeys: ['sub1'],
+      isDown: true
     };
   
     componentDidMount(){
@@ -26,41 +27,29 @@ export class WorkSheetConfig extends Component {
       }).then((res)=>{
         console.log('res: ', res);
 
-      })    
-      const workSheets = workList.map((item, idx)=>{
-        return (
-          <SubMenu
-          key="sub1"
-          title={
-            <span>
-              <span>Navigation One</span>
-            </span>
-          }
-          >
-            <Menu.ItemGroup key="g1" title="Item 1">
-              <Menu.Item key="1">Option 1</Menu.Item>
-              <Menu.Item key="2">Option 2</Menu.Item>
-            </Menu.ItemGroup>
-          </SubMenu>
-        )
-      })  
+      })
     }
 
 
     onOpenChange = openKeys => {
+      console.log('openKeys: ', openKeys);
       const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
       if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-        this.setState({ openKeys });
+        this.setState({ openKeys, isDown: false });
       } else {
         this.setState({
           openKeys: latestOpenKey ? [latestOpenKey] : [],
+          isDown: true
         });
       }
     };
 
+
     render() {
+      const { isDown } = this.state;
+        const daymicIcon = isDown ?   <UpOutlined /> : <DownOutlined /> 
         return (
-          <div className='dragElement'>
+          <div style={{margin: "10px 10px"}}>
               <Menu
               mode="inline"
               openKeys={this.state.openKeys}
@@ -68,15 +57,16 @@ export class WorkSheetConfig extends Component {
               style={{ width: 256 }}
             >
               <SubMenu
+                style={{"text-align": 'center'}}
                 key="sub1"
+                arrow={false}
                 title={
-                  <span>
-                    <MailOutlined />
-                    <span>Navigation One</span>
+                  <span >
+                    <PlusOutlined/>
                   </span>
                 }
               >   
-                  <Menu.Item key="4">Option 4</Menu.Item>
+                  <Menu.Item key="4">工作表</Menu.Item>
               </SubMenu>
               </Menu>
           </div>

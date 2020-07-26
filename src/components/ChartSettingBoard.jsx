@@ -147,7 +147,7 @@ export class ChartSettingBoard extends Component {
 
         }) */
 
-        axios.ajax({
+/*         axios.ajax({
             url:'/dta/dataFile/fields/642516560904192',
         }).then((res)=>{
           console.log('res: ', res);
@@ -158,7 +158,7 @@ export class ChartSettingBoard extends Component {
                   itemList:data
                 })
             }
-        })
+        }) */
     }
 
     render() {
