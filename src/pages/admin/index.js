@@ -1,34 +1,39 @@
 import React from 'react'
-import { Row, Col } from 'antd'
-
+import { Row, Col, Layout } from 'antd'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
 import NavLeft from '../../components/NavLeft'
 import '../../style/common.less'
 import './index.less'
+const { Sider, Content } = Layout;
 
 export default class Admin extends React.Component{
+  state = {
+    collapsed: false,
+  };
 
-
- componentDidMount(){
-
-  }
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
 
   render(){
     return (
-      <Row className='container'>
-        <Col className='nav-left'>
-          <NavLeft/>
-        </Col>
-        <Col span="22" className='main'>
-          <Header/>
-          <Row className='content'>
-            {this.props.children}
-          </Row>     
-          <Footer/>
-        </Col>
-      </Row>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Header/>
+        <Layout className="site-layout">
+          <Sider  trigger={null} collapsible collapsed={this.state.collapsed}>
+            <NavLeft toggle={this.toggle} collapsed={this.state.collapsed}/>
+          </Sider>
+          <Content>
+            <Row className='content'>
+                {this.props.children}
+            </Row>  
+          </Content>
+        </Layout>
+      </Layout>
     )
   }
 }

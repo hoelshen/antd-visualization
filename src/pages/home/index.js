@@ -36,7 +36,7 @@ export default class Life extends React.Component{
       }
     })
 
-    const data_id = value2.children[0].data_id
+    const data_id = value2.children[2].data_id
     this.setState({
       data_id
     })

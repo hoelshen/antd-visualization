@@ -22,32 +22,16 @@ class Header extends React.Component{
         return (
             <div className="header">
                 <Row className="header-top">
-                    {
-                        menuType?
-                            <Col span="6" className="logo">
-                                <img src="/assets/logo-ant.svg" alt=""/>
-                                <span>MaPi可视化分析平台 </span>
-                            </Col>:''
-                    }
-                    <Col span={menuType?18:24}>
+                    <Col span="6" className="logo">
+                        <img src="/assets/logo-ant.svg" alt=""/>
+                        <span>MPai可视化分析平台 </span>
+                    </Col>
+                    <Col span={18}>
+                        <span>数据分析平台</span>
                         <span>欢迎，{this.state.userName}</span>
                         <a href="#">退出</a>
                     </Col>
                 </Row>
-                {
-                    menuType?'':
-                        <Row className="breadcrumb">
-                            <Col span="4" className="breadcrumb-title">
-                                { this.props.menuName }
-                            </Col>
-                            <Col span="20" className="weather">
-                                <span className="date">{this.state.sysTime}</span>
-                                <span className="weather-img">
-                                    <img src={this.state.dayPictureUrl} alt="" />
-                                </span>
-                            </Col>
-                        </Row>
-                }
             </div>
         );
     }

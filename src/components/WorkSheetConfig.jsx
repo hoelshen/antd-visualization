@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./dragElement.css";
 import { Menu } from "antd";
 import axios from "../axios/index";
-import { DownOutlined, UpOutlined, PlusOutlined } from "@ant-design/icons";
+import { DownOutlined, UpOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 export class WorkSheetConfig extends Component {
@@ -23,19 +23,23 @@ export class WorkSheetConfig extends Component {
 
   componentWillReceiveProps(nextProps){
     const { project_id } = nextProps;
-    axios.ajax({
-        url: "vis/worksheet/getByProjectId",
-        data: {
-          params: {
-            project_id
-          }
-        },
-      })
-      .then((res) => {
-        this.setState({
-          workList:res
+    if (this.props.project_id !== project_id){
+      if (project_id){
+        axios.ajax({
+          url: "vis/worksheet/getByProjectId",
+          data: {
+            params: {
+              project_id
+            }
+          },
         })
-      });
+        .then((res) => {
+          this.setState({
+            workList:res
+          })
+        });
+      }
+    }
   }
 
   onOpenChange = (openKeys) => {
@@ -53,7 +57,6 @@ export class WorkSheetConfig extends Component {
   };
 
   handleWork = (item) => {
-    console.log('item: ', item);
     axios.ajax({
       url: `vis/worksheet/${item.worksheet_id}`,
       data: {
@@ -78,7 +81,19 @@ export class WorkSheetConfig extends Component {
       console.log('obj: ', obj);
     });
   }
-
+  deleteHandle = (item)=>{
+    axios.ajax({
+      url: `vis/worksheet/${item.worksheet_id}`,
+      method: 'delete',
+    })
+    .then((res) => {
+      console.log('res: ', res);
+      //todo 
+      //1.刷新获取表格
+      //2.删除样式
+      //3.解决冒泡
+    });
+  }
 
   render() {
     const { isDown, workList } = this.state;
@@ -102,7 +117,12 @@ export class WorkSheetConfig extends Component {
             }
           >
           { workList.map(item=>{
-            return <Menu.Item key={item.worksheet_id} onClick={this.handleWork.bind(this, item)}>{item.worksheet_nm} </Menu.Item>
+            return <Menu.Item key={item.worksheet_id} onClick={this.handleWork.bind(this, item)}>
+                <div style={{}}>
+                {item.worksheet_nm}
+                <CloseOutlined onClick={this.deleteHandle.bind(this, item)}/>
+                </div> 
+              </Menu.Item>
             })
           }
           </SubMenu>

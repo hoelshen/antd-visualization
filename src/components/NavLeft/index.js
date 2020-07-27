@@ -24,16 +24,14 @@ const { SubMenu } = Menu;
 const { Header, Sider, Content } = Layout;
 
 class NavLeft extends React.Component {
-  state = {
-    currentKey:'',
-    collapsed: false,
-
+  constructor(props){
+    super(props)
+    this.state = {
+      currentKey:'',
+      collapsed: props.Collapsed,
+    }
   }
-  toggleCollapsed = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
+
   handleClick = ({ item ,key})=>{
     const menuTreeNode = this.renderMenu(MenuConfig);
     let currentKey = window.location.hash.replace(/#|\?.*$/g, '');
@@ -45,6 +43,12 @@ class NavLeft extends React.Component {
   componentWillMount() {
     const menuTreeNode = this.renderMenu(MenuConfig);
     this.setState({ menuTreeNode });
+  }
+
+  handle = () => {
+    console.log(1);
+
+    this.props.toggle()
   }
 
   renderMenu = (data) => {
@@ -67,14 +71,12 @@ class NavLeft extends React.Component {
   render() {
     return (
       <div>
-        <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
-          {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+        <Button type="primary" onClick={this.props.toggle} style={{ marginBottom: 16 }}>
+          {React.createElement(this.props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
         </Button>
           <Menu
-              defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               mode="inline"
-              inlineCollapsed={this.state.collapsed}
               theme="dark"
           >
           { this.state.menuTreeNode }
