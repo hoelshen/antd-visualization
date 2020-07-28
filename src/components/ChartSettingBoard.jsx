@@ -150,6 +150,21 @@ export class ChartSettingBoard extends Component {
         })      
     }
 
+
+    btnHandle = () => {
+  /*     manager.actions.push({
+        name: 'changePosition',
+        params: { target: 'left', value: 10 }
+      });
+
+      const execFn = manager.getFunction(action.name);mg
+      manager.data = execFn(manager.data, action.params);
+
+      if (manager.undoActions.length) {
+          manager.undoActions = [];
+      } */
+    }
+
     render() {
         const { itemList, dropConfig } = this.state
         const leftItems = itemList.map((item, idx) => {
@@ -182,7 +197,11 @@ export class ChartSettingBoard extends Component {
         
         return (
             <div className='chartSettingBoard'>
-                <h3>可视化</h3>
+                <div>
+                  <h3>可视化</h3>
+                  <div onClick={this.btnHandle}></div> 
+                </div>
+
                 <Row gutter={10}>
                     <Col sm={4}>
                         <div style={{ height: '50px', width: '100%' }}>
