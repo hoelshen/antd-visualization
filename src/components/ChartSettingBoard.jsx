@@ -152,7 +152,7 @@ export class ChartSettingBoard extends Component {
 
 
     btnHandle = () => {
-  /*     manager.actions.push({
+  /*     manager.actions.push({c
         name: 'changePosition',
         params: { target: 'left', value: 10 }
       });
@@ -163,6 +163,21 @@ export class ChartSettingBoard extends Component {
       if (manager.undoActions.length) {
           manager.undoActions = [];
       } */
+    }
+
+    undo = () => {
+      const action = manager.actions.pop();
+      const undoFn = manager.getFunction(`${action.name}Undo`);
+      manager.data = undoFn(manager.data, action.params);
+      manager.undoActions.push(action);
+
+    }
+
+
+    redo = () => {
+        const action = manager.undoActions.pop();
+        const execFn = manager.getFunction(action.name);
+        manager.data = execFn(manager.data, action.params);
     }
 
     render() {
