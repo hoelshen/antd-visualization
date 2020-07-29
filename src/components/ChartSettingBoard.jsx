@@ -5,6 +5,8 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import DropConfigChart from './DropConfigChart';
 import WorkSheetConfig from './WorkSheetConfig';
+import store from '../redux/store';
+
 import "antd/dist/antd.css";
 
 import DropElement from './DropElement';
@@ -52,6 +54,9 @@ export class ChartSettingBoard extends Component {
         this.delItem = this.delItem.bind(this)
         this.changeItem = this.changeItem.bind(this)
         this.onSelectChartType = this.onSelectChartType.bind(this);
+        // 获取store中state数据要通过store.getState()方法
+        // console.log('store', store.getState()) 
+        // store.subscribe(this.storeChange) // 订阅Redux的状态
         this.state = {
           project_id: props.project_id,
           data_id: props.data_id,
@@ -165,7 +170,7 @@ export class ChartSettingBoard extends Component {
       } */
     }
 
-    undo = () => {
+/*     undo = () => {
       const action = manager.actions.pop();
       const undoFn = manager.getFunction(`${action.name}Undo`);
       manager.data = undoFn(manager.data, action.params);
@@ -179,7 +184,7 @@ export class ChartSettingBoard extends Component {
         const execFn = manager.getFunction(action.name);
         manager.data = execFn(manager.data, action.params);
     }
-
+ */
     render() {
         const { itemList, dropConfig } = this.state
         const leftItems = itemList.map((item, idx) => {
