@@ -78,7 +78,7 @@ export class ChartSettingBoard extends Component {
 
     canDrop(id) {
         const { itemList, activeId, dropConfig } = this.state;
-        if (itemList[activeId].type != dropConfig[id].type) {
+        if (itemList[activeId].type !== dropConfig[id].type) {
             return false;
         }
         return true
@@ -126,13 +126,26 @@ export class ChartSettingBoard extends Component {
 
 
     componentDidMount(){
- 
+    
     }
 
     componentWillReceiveProps(nextProps){
-      // nextProps.data_id && this.request(nextProps.project_id, nextProps.data_id)
+      nextProps.data_id && this.request(nextProps.project_id, nextProps.data_id);
     }
     request = (project_id, data_id)=>{
+        axios.ajax({
+          url:`/dta/dataFile/fields/${data_id}`,
+        }).then((res)=>{
+          console.log('res: ', res.data_fields);
+          let itemList = res.data_fields
+          this.setState({
+            itemList
+          })
+        }).catch((err)=>{
+          console.log('err: ', err);
+
+        })
+
         axios.ajax({
           url: '/vis/worksheet',
           method: 'post',
@@ -152,6 +165,7 @@ export class ChartSettingBoard extends Component {
 
     render() {
         const { itemList, dropConfig } = this.state
+        console.log('itemList: ', itemList);
         const leftItems = itemList.map((item, idx) => {
             return (
                 <div key={idx}>

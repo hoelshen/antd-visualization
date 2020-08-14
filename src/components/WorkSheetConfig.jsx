@@ -107,7 +107,7 @@ export class WorkSheetConfig extends Component {
           style={{ width: 256 }}
         >
           <SubMenu
-            style={{ "text-align": "center" }}
+            style={{ "textAlign": "center" }}
             key="sub1"
             arrow={false}
             title={

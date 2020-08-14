@@ -40,9 +40,7 @@ export default class Life extends React.Component{
     this.setState({
       data_id
     })
-    let value3 = await  axios.ajax({
-        url:`/dta/dataFile/fields/${data_id}`,
-    })
+    
   }
 
   render(){
