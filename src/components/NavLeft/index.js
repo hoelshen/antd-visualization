@@ -2,20 +2,15 @@ import React from "react";
 
 import { NavLink } from "react-router-dom";
 import { connect } from 'react-redux'
-import { switchMenu } from './../../redux/action'
 
 import './index.less'
 
 import { Menu, Layout, Button } from "antd";
 
 import {
-  AppstoreOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
 } from '@ant-design/icons';
 
 import MenuConfig from "../../config/menuConfig";

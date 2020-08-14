@@ -4,10 +4,11 @@ import './index.css';
 import IRouter from './router';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import configureStore from './redux/store/configureStore';
+import createStore from './redux/store';
 
 
-const store = configureStore();
+const store = createStore();
+console.log('store: ', store);
 
 ReactDOM.render(
   <Provider store={store}>
