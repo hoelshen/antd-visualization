@@ -68,7 +68,14 @@ export class ChartSettingBoard extends Component {
       }
     }
 
-
+    shouldComponentUpdate(nextProps, nextState){
+      console.log('nextProps, nextState: ', nextProps, nextState);
+      const { props, state } = this;
+      function shallowCompare(a,b){
+        return a===b || Object.keys(a).every(k => a[k] === b[k])
+      }
+      return shallowCompare(nextProps, props) && shallowCompare(nextState, state)
+    }
 
     params = {
       page: 1

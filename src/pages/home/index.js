@@ -6,6 +6,7 @@ import axios from '../../axios/index';
 import { Button } from 'antd';
 
 import './index.less'
+
 export default class Life extends React.Component{
   constructor(props){
     super(props);

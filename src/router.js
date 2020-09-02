@@ -6,6 +6,7 @@ import Admin from './pages/admin'
 import Home from './pages/home'
 import ChartFactory from './pages/chartfactory'
 import DataBoard from './pages/databoard'
+import Life from './pages/Life'
 
 import NoMatch from './pages/nomatch'
 export default class IRouter extends React.Component{
@@ -22,6 +23,7 @@ export default class IRouter extends React.Component{
                                     <Route path="/home" component={Home} />
                                     <Route path="/chartfactory" component={ChartFactory} />
                                     <Route path="/databoard" component={DataBoard} />
+                                    <Route path="/life" component={Life} />
 
                                     <Redirect to="/home" />
                                     <Route component={NoMatch} />
