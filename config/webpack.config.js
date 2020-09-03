@@ -526,10 +526,9 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 3,
                   javascriptEnabled: true,
+                  modules: true,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-                  modules: {
-                    getLocalIdent: getCSSModuleLocalIdent,
-                  },
+                  getLocalIdent: getCSSModuleLocalIdent
                 },
                 'less-loader'
               ),

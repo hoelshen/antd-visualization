@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import CSSModules from 'react-css-modules';
+
 import { render } from 'react-dom';
  
-import styles from './index.module.css';
+// import  './login.less';
+// import styles from './index.module.css';
+import styles from './login.less';
 import './another-stylesheet.css'; // 导入常规 CSS 文件
 console.log(styles);
 const Title = styled.h1`
